@@ -19,3 +19,11 @@ var fs = require('fs')
 var opml = fs.readFileSync('example.opml', 'utf8')
 var text = OpmlToText.getText(opml)
 ```
+
+## API
+
+### OpmlToText.getText(opmlText, [commentPrefix], [indentation])
+
+* opmlText `String`
+* commentPrefix `String` default '//'
+* indentation `String` default '  ' (two spaces)
