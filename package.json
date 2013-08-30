@@ -1,0 +1,20 @@
+{
+  "name": "opmltotext",
+  "description": "Parses OPML and returns text.",
+  "keywords": ["opml"],
+  "version": "0.1.0",
+  "homepage": "http://andrewshell.github.com/node-opmltotext",
+  "repository": "git://github.com/andrewshell/node-opmltotext.git",
+  "author": "Andrew Shell <andrew@andrewshell.org> (http://blog.andrewshell.org/)",
+  "main": "./opmltotext.js",
+  "dependencies": {
+    "libxmljs": "0.8.x"
+  },
+  "engines": {
+    "node": ">= v0.8.0"
+  },
+  "bugs": {
+    "mail" : "andrew@andrewshell.org",
+    "web" : "https://github.com/andrewshell/node-opmltotext/issues"
+  }
+}
