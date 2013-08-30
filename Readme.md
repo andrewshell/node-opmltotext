@@ -1,6 +1,6 @@
 # opmltotext
 
-This is a node.js library that parses OPML and returns text.  It generates output using specified indendation and comment prefix strings.
+This is a node.js library that parses OPML and returns text.  It generates output using specified indentation and comment prefix strings.
 
 [![NPM](https://nodei.co/npm/opmltotext.png)](https://nodei.co/npm/opmltotext/)
 
