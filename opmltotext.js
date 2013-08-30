@@ -1,6 +1,6 @@
 var libxmljs = require("libxmljs")
 
-var OpmlToText = function (opmlText, commentPrefix, indendation) {
+var OpmlToText = function (opmlText, commentPrefix, indentation) {
   this.opmlText = opmlText
 
   if (commentPrefix === undefined) {
@@ -9,11 +9,11 @@ var OpmlToText = function (opmlText, commentPrefix, indendation) {
 
   this.commentPrefix = commentPrefix
 
-  if (indendation === undefined) {
-    indendation = "  " // NPM coding style expects two spaces
+  if (indentation === undefined) {
+    indentation = "  " // NPM coding style expects two spaces
   }
 
-  this.indendation = indendation
+  this.indentation = indentation
 }
 
 OpmlToText.prototype.getText = function () {
@@ -91,21 +91,21 @@ OpmlToText.prototype._isNodeComment = function (currentNode) {
 }
 
 OpmlToText.prototype._getLinePrefix = function (isComment) {
-  var indendationText = ""
+  var indentationText = ""
 
   for (var i = 0; i < this.preCommentNestingLevel; i++) {
-    indendationText += this.indendation
+    indentationText += this.indentation
   }
   
   if (isComment) {
-    indendationText += this.commentPrefix
+    indentationText += this.commentPrefix
   }
 
   for (var i = this.preCommentNestingLevel; i < this.nestingLevel; i++) {
-    indendationText += this.indendation
+    indentationText += this.indentation
   }
 
-  return indendationText
+  return indentationText
 }
 
 OpmlToText.prototype._getNodeText = function (currentNode) {
@@ -136,7 +136,7 @@ OpmlToText.prototype._unshiftChildrenOntoStack = function (childOutlineNodes, is
   this.stack = childOutlineNodes.concat(this.stack)
 }
 
-exports.getText = function (opmlText, commentPrefix, indendation) {
-  var converter = new OpmlToText(opmlText, commentPrefix, indendation)
+exports.getText = function (opmlText, commentPrefix, indentation) {
+  var converter = new OpmlToText(opmlText, commentPrefix, indentation)
   return converter.getText()
 }
