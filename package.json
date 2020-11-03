@@ -1,20 +1,29 @@
 {
   "name": "opmltotext",
   "description": "Parses OPML and returns text.",
-  "keywords": ["opml"],
+  "keywords": [
+    "opml"
+  ],
+  "scripts": {
+    "eslint": "eslint --fix opmltotext.js example/index.js"
+  },
   "version": "0.1.0",
   "homepage": "http://andrewshell.github.com/node-opmltotext",
   "repository": "git://github.com/andrewshell/node-opmltotext.git",
   "author": "Andrew Shell <andrew@andrewshell.org> (http://blog.andrewshell.org/)",
   "main": "./opmltotext.js",
   "dependencies": {
-    "libxmljs": "0.8.x"
+    "libxmljs": "^0.19.7"
   },
   "engines": {
     "node": ">= v0.8.0"
   },
   "bugs": {
-    "mail" : "andrew@andrewshell.org",
-    "web" : "https://github.com/andrewshell/node-opmltotext/issues"
+    "mail": "andrew@andrewshell.org",
+    "web": "https://github.com/andrewshell/node-opmltotext/issues"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-crockford": "^2.0.0"
   }
 }

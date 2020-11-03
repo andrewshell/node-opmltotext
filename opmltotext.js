@@ -1,142 +1,144 @@
-var libxmljs = require("libxmljs")
+const libxmljs = require("libxmljs");
 
-var OpmlToText = function (opmlText, commentPrefix, indentation) {
-  this.opmlText = opmlText
+function OpmlToText(opmlText, commentPrefix, indentation) {
+    this.opmlText = opmlText;
 
-  if (commentPrefix === undefined) {
-    commentPrefix = "//"
-  }
+    if (commentPrefix === undefined) {
+        commentPrefix = "//";
+    }
 
-  this.commentPrefix = commentPrefix
+    this.commentPrefix = commentPrefix;
 
-  if (indentation === undefined) {
-    indentation = "  " // NPM coding style expects two spaces
-  }
+    if (indentation === undefined) {
+        indentation = "  "; // NPM coding style expects two spaces
+    }
 
-  this.indentation = indentation
+    this.indentation = indentation;
 }
 
 OpmlToText.prototype.getText = function () {
-  if (this.result !== undefined) {
-    return this.result
-  }
+    if (this.result !== undefined) {
+        return this.result;
+    }
 
-  this.result = ""
-  this.nestingLevel = 0
-  this.preCommentNestingLevel = 0
-  this.inComment = false
-  this.isParentCommented = false
-  
-  this._createLibXmlDoc()
-  this._initializeStack()
-  this._buildResult()
+    this.result = "";
+    this.nestingLevel = 0;
+    this.preCommentNestingLevel = 0;
+    this.inComment = false;
+    this.isParentCommented = false;
 
-  return this.result
-}
+    this._createLibXmlDoc();
+    this._initializeStack();
+    this._buildResult();
+
+    return this.result;
+};
 
 OpmlToText.prototype._createLibXmlDoc = function () {
-  this.opmlDoc = libxmljs.parseXml(this.opmlText)
-}
+    this.opmlDoc = libxmljs.parseXml(this.opmlText);
+};
 
 OpmlToText.prototype._initializeStack = function () {
-  this.stack = this.opmlDoc.find("//body")[0].find("outline")
-}
+    this.stack = this.opmlDoc.find("//body")[0].find("outline");
+};
 
 OpmlToText.prototype._buildResult = function () {
-  while (this.stack.length > 0) {
-    var currentNode = this.stack.shift()
-    if (currentNode.isPlaceholderInfo) {
-      this.nestingLevel--
-      this.inComment = currentNode.isCommented
-      if (currentNode.preCommentNestingLevel !== null) {
-        console.log("currentNode.preCommentNestingLevel: " + currentNode.preCommentNestingLevel)
-        this.preCommentNestingLevel = currentNode.preCommentNestingLevel
-      }
-      if (!this.inComment) {
-        console.log("currentNode.preCommentNestingLevel: 0 (!this.inComment)")
-        this.preCommentNestingLevel = 0
-      }
-      continue
+    let currentNode;
+    while (this.stack.length > 0) {
+        currentNode = this.stack.shift();
+        if (currentNode.isPlaceholderInfo) {
+            this.nestingLevel--;
+            this.inComment = currentNode.isCommented;
+            if (currentNode.preCommentNestingLevel !== null) {
+                this.preCommentNestingLevel = currentNode.preCommentNestingLevel;
+            }
+            if (!this.inComment) {
+                this.preCommentNestingLevel = 0;
+            }
+            continue;
+        }
+        this.result += this._convertNodeToText(currentNode) + "\n";
     }
-    this.result += this._convertNodeToText(currentNode) + "\n"
-  }
-}
+};
 
 OpmlToText.prototype._convertNodeToText = function (currentNode) {
-  var isComment = this._isNodeComment(currentNode)
-  var childOutlineNodes = currentNode.find("outline")
+    var isComment = this._isNodeComment(currentNode),
+        childOutlineNodes = currentNode.find("outline"),
 
-  var resultLine = this._getLinePrefix(isComment) + this._getNodeText(currentNode)
+        resultLine = this._getLinePrefix(isComment) + this._getNodeText(currentNode);
 
-  if (childOutlineNodes.length > 0) {
-    this._unshiftChildrenOntoStack(childOutlineNodes, isComment)
-  }
+    if (childOutlineNodes.length > 0) {
+        this._unshiftChildrenOntoStack(childOutlineNodes, isComment);
+    }
 
-  return resultLine
-}
+    return resultLine;
+};
 
 OpmlToText.prototype._isNodeComment = function (currentNode) {
-  var isComment = this.inComment
+    var isComment = this.inComment,
 
-  var commentAttribute = currentNode.attr("isComment")
+        commentAttribute = currentNode.attr("isComment");
 
-  if (commentAttribute !== null) {
-    isComment = (commentAttribute.value() == "true")
-    if (isComment) {
-      this.preCommentNestingLevel = this.nestingLevel
+    if (commentAttribute !== null) {
+        isComment = (commentAttribute.value() === "true");
+        if (isComment) {
+            this.preCommentNestingLevel = this.nestingLevel;
+        }
     }
-  }
 
-  return isComment
-}
+    return isComment;
+};
 
 OpmlToText.prototype._getLinePrefix = function (isComment) {
-  var indentationText = ""
+    let indentationText = "", i;
 
-  for (var i = 0; i < this.preCommentNestingLevel; i++) {
-    indentationText += this.indentation
-  }
-  
-  if (isComment) {
-    indentationText += this.commentPrefix
-  }
+    for (i = 0; i < this.preCommentNestingLevel; i++) {
+        indentationText += this.indentation;
+    }
 
-  for (var i = this.preCommentNestingLevel; i < this.nestingLevel; i++) {
-    indentationText += this.indentation
-  }
+    if (isComment) {
+        indentationText += this.commentPrefix;
+    }
 
-  return indentationText
-}
+    for (i = this.preCommentNestingLevel; i < this.nestingLevel; i++) {
+        indentationText += this.indentation;
+    }
+
+    return indentationText;
+};
 
 OpmlToText.prototype._getNodeText = function (currentNode) {
-  var nodeText = ""
+    var nodeText = "",
 
-  var textAttribute = currentNode.attr("text")
+        textAttribute = currentNode.attr("text");
 
-  if (textAttribute !== null) {
-    nodeText = textAttribute.value()
-  }
+    if (textAttribute !== null) {
+        nodeText = textAttribute.value();
+    }
 
-  return nodeText
-}
+    return nodeText;
+};
 
 OpmlToText.prototype._unshiftChildrenOntoStack = function (childOutlineNodes, isComment) {
-  this.nestingLevel++
+    const placeholderInfo = {
+        isPlaceholderInfo: true,
+        isCommented: 0,
+        preCommentNestingLevel: null
+    };
 
-  this.isParentCommented = this.inComment
-  this.inComment = isComment
+    this.nestingLevel++;
 
-  var placeholderInfo = {
-    isPlaceholderInfo: true,
-    isCommented: this.isParentCommented,
-    preCommentNestingLevel: (this.isParentCommented == this.inComment ? null : this.nestingLevel)
-  }
+    this.isParentCommented = this.inComment;
+    this.inComment = isComment;
 
-  this.stack.unshift(placeholderInfo)
-  this.stack = childOutlineNodes.concat(this.stack)
-}
+    placeholderInfo.isCommented = this.isParentCommented;
+    placeholderInfo.preCommentNestingLevel = (this.isParentCommented === this.inComment ? null : this.nestingLevel);
+
+    this.stack.unshift(placeholderInfo);
+    this.stack = childOutlineNodes.concat(this.stack);
+};
 
 exports.getText = function (opmlText, commentPrefix, indentation) {
-  var converter = new OpmlToText(opmlText, commentPrefix, indentation)
-  return converter.getText()
-}
+    var converter = new OpmlToText(opmlText, commentPrefix, indentation);
+    return converter.getText();
+};

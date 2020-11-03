@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<opml version="2.0">
+	<head>
+		<title>example</title>
+		<dateCreated>Tue, 03 Nov 2020 12:05:04 GMT</dateCreated>
+		<dateModified>Tue, 03 Nov 2020 12:10:45 GMT</dateModified>
+		</head>
+	<body>
+		<outline text="# Example OPML File" created="Tue, 03 Nov 2020 12:05:04 GMT">
+			<outline text="This is an example of how you can compose text documents in OPML" created="Tue, 03 Nov 2020 12:05:23 GMT"/>
+			<outline text="Here is a list:" created="Tue, 03 Nov 2020 12:05:43 GMT">
+				<outline text="* One" created="Tue, 03 Nov 2020 12:05:49 GMT"/>
+				<outline text="* Two" created="Tue, 03 Nov 2020 12:05:52 GMT"/>
+				<outline text="* Three" created="Tue, 03 Nov 2020 12:05:54 GMT"/>
+				</outline>
+			</outline>
+		<outline text="## First Section" created="Tue, 03 Nov 2020 12:06:08 GMT">
+			<outline text="Hoopla." created="Tue, 03 Nov 2020 12:06:23 GMT"/>
+			</outline>
+		</body>
+	</opml>
