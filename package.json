@@ -7,10 +7,11 @@
   "scripts": {
     "eslint": "eslint --fix opmltotext.js example/index.js"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "http://andrewshell.github.com/node-opmltotext",
   "repository": "git://github.com/andrewshell/node-opmltotext.git",
   "author": "Andrew Shell <andrew@andrewshell.org> (http://blog.andrewshell.org/)",
+  "license": "MIT",
   "main": "./opmltotext.js",
   "dependencies": {
     "libxmljs": "^0.19.7"
