@@ -1,30 +1,47 @@
 {
   "name": "opmltotext",
+  "version": "0.2.0",
   "description": "Parses OPML and returns text.",
   "keywords": [
-    "opml"
+    "opml",
+    "outline",
+    "text"
   ],
-  "scripts": {
-    "eslint": "eslint --fix opmltotext.js example/index.js"
-  },
-  "version": "0.2.0",
-  "homepage": "http://andrewshell.github.com/node-opmltotext",
-  "repository": "git://github.com/andrewshell/node-opmltotext.git",
-  "author": "Andrew Shell <andrew@andrewshell.org> (http://blog.andrewshell.org/)",
-  "license": "MIT",
-  "main": "./opmltotext.js",
-  "dependencies": {
-    "libxmljs": "^0.19.7"
-  },
-  "engines": {
-    "node": ">= v0.8.0"
+  "homepage": "https://github.com/andrewshell/node-opmltotext",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewshell/node-opmltotext.git"
   },
   "bugs": {
-    "mail": "andrew@andrewshell.org",
-    "web": "https://github.com/andrewshell/node-opmltotext/issues"
+    "url": "https://github.com/andrewshell/node-opmltotext/issues"
+  },
+  "author": "Andrew Shell <andrew@andrewshell.org> (https://blog.andrewshell.org/)",
+  "license": "MIT",
+  "main": "./opmltotext.js",
+  "files": [
+    "opmltotext.js",
+    "Readme.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "test": "node --test opmltotext.test.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.12.1",
-    "eslint-config-crockford": "^2.0.0"
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2"
   }
 }
