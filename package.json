@@ -1,6 +1,6 @@
 {
   "name": "opmltotext",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Parses OPML and returns text.",
   "keywords": [
     "opml",
